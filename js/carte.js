@@ -1,78 +1,107 @@
-var mapOptions = {
-  projection: 'EPSG:4326',
-  target: 'map',
-  controls: ol.control.defaults({
-    attributionOptions: ({
-      collapsible: false
-    })
-  }),
-  // on centre la vue par défaut sur Bogota
-  view: new ol.View({
-    center: ol.proj.fromLonLat([-74.0924,4.6349]),
-    zoom: 11
-  })
-}
-var map = new ol.Map(mapOptions);
-//chargement de la carte
-//var map = new ol.Map({target:’map’});
-
-//grande barre de zoom
-map.addControl(new ol.control.ZoomSlider());
-
-//carte de vue globale
-map.addControl(new ol.control.OverviewMap());
+var map,
+	fields = ["scanombre"], 
+	autocomplete = [];
 
 
-//credits des fonds de carte
-map.addControl(new ol.control.Attribution());
+function initialize(){
 
-//affichage plein ecran
-map.addControl(new ol.control.FullScreen());
+	var map = L.map('map',{
+	minZoom: 2,
+	maxZoom: 22,
+	zoomControl: false              
+	}).setView([4.55, -74.1], 12);   	
 
-//controle mousePosition
-var mousePosition = new ol.control.MousePosition({
-             coordinateFormat: ol.coordinate.createStringXY(4),
-             projection: 'EPSG:4326',
-             target: document.getElementById('mouse-position'),
-             undefinedHTML: '&nbsp;'
-         });
-         map.addControl(mousePosition);
+	var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'); 
 
-//carte OSM
-var osmLayer = new ol.layer.Tile({source: new ol.source.OSM()});
-map.addLayer(osmLayer);
+	var options =	{
+	center: new L.LatLng(4.55, -74.1),
+	zoom: 11,
+	layers: [osm],
+	};
 
-//Deplacement de la carte avec la souris
-map.addInteraction(new ol.interaction.DragPan());
+	osm.addTo(map);
 
-//Zoom sur la carte avec la souris
-map.addInteraction(new ol.interaction.MouseWheelZoom());
+	var wmsLayer= L.tileLayer.wms("http://localhost/cgi-bin/webfoncier/qgis_mapserv.fcgi?",{
+	layers: 'Communes',
+	transparent: true,
+	opacity : 0.50,
+	format: 'image/png'
+	}).addTo(map);
 
-//rotation de la carte avec shift+clic souris
-map.addInteraction(new ol.interaction.DragRotate());
+	var zoom_bar = new L.Control.ZoomBar({position: 'topright'}).addTo(map);
 
-// Couche des secteurs depuis un script PHP
-var secteursLoader = function(extent, resolution, projection) {
-    var url = 'http://localhost/Webmapping-Project/php/secteurs.php';
-    $.ajax(url).then(function(response) {
-        var format = new ol.format.GeoJSON();
-        var features = format.readFeatures(
-            response,
-            {featureProjection: projection}
-        );
-        secteursSource.addFeatures(features);
-    });
+	//next: add features to map
+	getData();
 };
 
-var secteursSource = new ol.source.Vector({
-    loader: secteursLoader,
-    strategy: ol.loadingstrategy.bbox
-});
 
-var secteursLayer = new ol.layer.Vector({
-  title: 'Secteurs',
-  extent: [-74.2245,4.41427,-73.9983,4.83727] ,
-  source: secteursSource
-});
 
-map.addLayer(secteursLayer);
+// Couche des secteurs depuis un script PHP
+
+
+
+function getData(){
+	$.ajax("php/secteurs.php", {
+		data: {
+			table: "fracsandsites",
+			fields: fields
+		},
+		success: function(data){
+			mapData(data);
+		}
+	})
+};
+
+function mapData(data){
+	//remove existing map layers
+	map.eachLayer(function(layer){
+		//if not the tile layer
+		if (typeof layer._url === "undefined"){
+			map.removeLayer(layer);
+		}
+	});
+
+	//create geojson container object
+	var geojson = {
+		"type": "FeatureCollection",
+		"features": []
+	};
+
+	//split data into features
+	var dataArray = data.split(", ;");
+	dataArray.pop();
+    
+    //console.log(dataArray);
+	
+	//build geojson features
+	dataArray.forEach(function(d){
+		d = d.split(", "); //split the data up into individual attribute values and the geometry
+
+		//feature object container
+		var feature = {
+			"type": "Feature",
+			"properties": {}, //properties object container
+			"geometry": JSON.parse(d[fields.length]) //parse geometry
+		};
+
+		for (var i=0; i<fields.length; i++){
+			feature.properties[fields[i]] = d[i];
+		};
+
+		//add feature names to autocomplete list
+		if ($.inArray(feature.properties.featname, autocomplete) == -1){
+			autocomplete.push(feature.properties.featname);
+		};
+
+		geojson.features.push(feature);
+	});
+	
+    //console.log(geojson);
+    
+    //activate autocomplete on featname input
+    $("input[name=featname]").autocomplete({
+        source: autocomplete
+    });
+
+	var mapDataLayer = L.geoJson(geojson).addTo(map);
+};
