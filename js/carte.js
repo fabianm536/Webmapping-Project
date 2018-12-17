@@ -22,8 +22,6 @@ map.addControl(new ol.control.ZoomSlider());
 //carte de vue globale
 map.addControl(new ol.control.OverviewMap());
 
-//coordonnes du pointeur de la souris
-map.addControl(new ol.control.MousePosition());
 
 //credits des fonds de carte
 map.addControl(new ol.control.Attribution());
@@ -43,7 +41,6 @@ var mousePosition = new ol.control.MousePosition({
 //carte OSM
 var osmLayer = new ol.layer.Tile({source: new ol.source.OSM()});
 map.addLayer(osmLayer);
-map.setView(view);
 
 //Deplacement de la carte avec la souris
 map.addInteraction(new ol.interaction.DragPan());
@@ -52,5 +49,30 @@ map.addInteraction(new ol.interaction.DragPan());
 map.addInteraction(new ol.interaction.MouseWheelZoom());
 
 //rotation de la carte avec shift+clic souris
- map.addInteraction(new ol.interaction.DragRotate());
+map.addInteraction(new ol.interaction.DragRotate());
 
+// Couche des secteurs depuis un script PHP
+var secteursLoader = function(extent, resolution, projection) {
+    var url = 'http://localhost/Webmapping-Project/php/secteurs.php';
+    $.ajax(url).then(function(response) {
+        var format = new ol.format.GeoJSON();
+        var features = format.readFeatures(
+            response,
+            {featureProjection: projection}
+        );
+        secteursSource.addFeatures(features);
+    });
+};
+
+var secteursSource = new ol.source.Vector({
+    loader: secteursLoader,
+    strategy: ol.loadingstrategy.bbox
+});
+
+var secteursLayer = new ol.layer.Vector({
+  title: 'Secteurs',
+  extent: [-74.2245,4.41427,-73.9983,4.83727] ,
+  source: secteursSource
+});
+
+map.addLayer(secteursLayer);
