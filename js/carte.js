@@ -11,6 +11,7 @@ function initialize(){
 	}).setView([4.65, -74.1], 12);   	
 
 	var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'); 
+	
 
 	var options =	{
 	center: new L.LatLng(4.55, -74.1),
@@ -29,7 +30,7 @@ function initialize(){
 	
 	
 	var secteurs = $.ajax({
-	  url:"http://localhost/Webmapping-Project/php/getData.php?table=secteur_cadastral&fields[]=scanombre",
+	  url:"http://localhost/Webmapping-Project/php/getData.php?",
 	  dataType: "json",
 	  success: console.log("County data successfully loaded."),
 	  error: function (xhr) {
