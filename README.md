@@ -32,3 +32,5 @@ GIS application for real state by multi criteria searching
 ## Bibliographie
 
 * https://medium.com/@maptastik/loading-external-geojson-a-nother-way-to-do-it-with-jquery-c72ae3b41c01
+
+* https://www.mapbox.com/studio/styles/mapbox/light-v9/

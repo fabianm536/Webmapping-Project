@@ -1,5 +1,5 @@
 <?php 
-$config_dbname = 'webmapping'; // nom de la base de données 
+$config_dbname = 'lorena'; // nom de la base de données 
 $config_user = 'postgres'; // utilisateur ayant accès à la base 
 $config_password = 'postgres'; // mot de passe de l'utilisateur 
 
