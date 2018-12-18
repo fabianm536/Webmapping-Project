@@ -8,14 +8,26 @@
 h1{
     font-family: 'Quicksand', sans-serif;
     color:#e74c3c;
-    
+    position:relative;
+    bottom:2px;
+    padding-top: 10px;
+    left:150px;
+    margin-bottom: 0px;
+}
+
+h3{
+    font-family: 'Quicksand', sans-serif;
+    color:#95a5a6;
+    position:relative;
+    padding-left: 150px;
+    margin-top: 0px;
 }
 
 body{
     font-family: 'Quicksand', sans-serif;
     font-size: 100%;
-    
 }
+
 form
 {
     height: 20px;
@@ -29,6 +41,7 @@ form
     width: 150px;
     height: 40px;
     border: none;
+    border border-radius: 6px;
     font-family: 'Quicksand', sans-serif;
     text-align: center;
     font-size: 15px;
@@ -36,23 +49,22 @@ form
     -webkit-appearance: button;
     outline: none;
     position:relative;
-    top:;
-    bottom:20px;
-    right:;
+    bottom:40px;
     left:150px;
 }
+
+.box select:hover{
+    color: #fff;
+    background-color: #3498db;
+  }
 
 img
 {
     height: auto;
-    width: 80px;
-    padding: 0,5px;
+    width: 120px;
     position:relative;
-    top:2
-        px;
-    bottom:;
-    right:;
-    left:20px;
+    bottom:70px;
+    left:10px;
 }
 
 .submit
@@ -60,9 +72,7 @@ img
     width="50px";
     height="50px";
     position:relative;
-    top:;
-    bottom:70px;
-    right:;
+    bottom:130px;
     left:620px; 
 }
 

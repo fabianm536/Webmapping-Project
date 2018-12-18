@@ -12,42 +12,62 @@
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-    <h1>Prix Foncier Bogotá</h1>
+    <h1>Prix Foncier de Bogotá App</h1>
+    <h3>Consultez ici</h3>
 <form>
- <div>
+ <div class="img">
         <img src="Images/home4.png"/>
-    </div>
+        <img src="Images/logosu.png" padding-right:""30px;align="right" style= "height:100px; width:400px;padding-left: 870px;top:-90px;"/>
+</div>
     
  <div class="submit">
         <form action="" method="post">
         <input type="image" src="Images/lupa3.png" style="height: 50px;">
         </form>
     </div>
-    
     <div class="box">
-        <select>
+        <select name="commune">
             <option>Commune</option>
-            <option>Fontibon</option>
-            <option>Chapinero</option>
-            <option>Fontibon</option>
-            <option>Chapinero</option>
-            <option>Fontibon</option>
-            <option>Chapinero</option>
+            <option value = "1">Usaquén</option>
+            <option value = "2">Chapinero</option>
+            <option value = "3">Santa Fe</option>
+            <option value = "4">San Cristobal</option>
+            <option value = "5">Usme</option>
+            <option value = "6">Tunjuelito</option>
+            <option value = "7">Bosa</option>
+            <option value = "8">Kennedy</option>
+            <option value = "9">Fontibón</option>
+            <option value = "10">Engativa</option>
+            <option value = "11">Suba</option>
+            <option value = "12">Barrios Unidos</option>
+            <option value = "13">Teusaquillo</option>
+            <option value = "14">Los Mártires</option>
+            <option value = "15">Antonio Nariño</option>
+            <option value = "16">Puente Aranda</option>
         </select>
-        <select>
+        <select name="surface">
             <option>Surface en m2</option>
-            <option>> 100</option>
-            <option>100 a 200</option>
+            <option value = "1">Moins de 100</option>
+            <option value = "2">de 100 à 200</option>
+            <option value = "1">de 200 à 300</option>
+            <option value = "2">de 300 à 400</option>
+            <option value = "1">de 400 à 500</option>
+            <option value = "2">Plus de 500 </option>
         </select>
-        <select>
+        <select name="prix">
             <option>Prix</option>
-            <option>> 1000</option>
-            <option>100 a 200</option>
+            <option value = "1">Moins de 2000</option>
+            <option value = "2">de 2000 à 4000</option>
+            <option value = "1">de 4000 à 300</option>
+            <option value = "2">de 300 à 400</option>
+            <option value = "1">de 400 à 500</option>
+            <option value = "2">Plus de 500 </option>
+            <option value = "1">Moins de 100</option>
         </select>
     </div>
 </form>
 <div id="map"></div>
 <div id="mouse-position"></div>
-<script type="text/javascript" src="js/carte.js"></script>
+<script type="text/javascript" src="carte.js"></script>
 </body>
 </html>
