@@ -4,7 +4,9 @@
 		<meta charset="utf-8">
 		<title>Webmapping</title>
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-
+        <script src="lib/leaflet-search-master/src/leaflet-search.js"></script>
+        <link rel="stylesheet" href="lib/leaflet-search-master/src/leaflet-search.css" />
+        <script type="text/javascript" src="communes.js"></script>
     </head>
     
     <body onload="initialize();">

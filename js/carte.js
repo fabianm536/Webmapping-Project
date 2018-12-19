@@ -49,20 +49,74 @@ function initialize(){
 	alert(xhr.statusText)
 	}
 	})
+    
+    //ajouter geojson avec des labels en popup
 	$.when(secteurs).done(function() {
-		var secteursData = L.geoJSON(secteurs.responseJSON).addTo(map);
+		var secteursData = L.geoJSON(secteurs.responseJSON,{
+            onEachFeature: function (feature, layer) {
+					layer.bindPopup("Localidad: "+feature.properties.locnombre+"<br>Surface m2: "+feature.properties.aream2+"<br>Prix m2: "+feature.properties.prixm2);
+                }
+        }).addTo(map);
 	});
 
+    //control layers
+    L.control.layers(baseMaps).addTo(map);
+    
     //minimap
     var osm2 = new L.TileLayer(urlOsm);
     var miniMap = new L.Control.MiniMap(osm2,{position:'bottomleft'}).addTo(map);
     
-    //control layers
-    L.control.layers(baseMaps).addTo(map);
+    //ajouter geojson
+    var commBog = L.geoJson(combog,{
+        style: definestyle
+    }).addTo(map);
+    
+    //SearchControl
+    var searchControl = new L.Control.Search({
+        layer: commBog,
+        propertyName:'locnombre'
+    });
+    
+    //SearchControl
+    map.addControl(searchControl);
+    
+    //ajouter legend
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend');
+
+            div.innerHTML +=
+            '<img src="leyenda4.png" alt="legend" width="50" height="50">';
+
+        return div;
+        };
+
+    legend.addTo(map);
+    
+    //navigation
+    L.control.navbar().addTo(map);
+
+    
+ //cloropleth geojson
+    function getColor(d) {
+        if (d < 215) return '#1a9641'
+        else if (d < 344) return '#a6d96a'
+        else if (d < 474) return '#ffffc0'
+        else if (d < 603) return '#fdae61'
+        else return '#d7191c';
+      }
+            
+    //Associer la plage de coulour à un champ
+    function definestyle(feature){
+        return {
+            fillColor: 
+            getColor(feature.properties.prix),
+            weight: 2,
+            opacity: 0,
+			color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+				};
+			}
 }
-
-
-
-
-
-

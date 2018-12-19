@@ -1,0 +1,38 @@
+{
+  "name": "leaflet-html-legend",
+  "version": "0.3.4",
+  "description": "Leaflet legend plugin using html elements",
+  "homepage": "http://github.com/consbio/Leaflet.HtmlLegend",
+  "author": {
+    "name": "Kaveh Karimi",
+    "email": "kaveh@consbio.org"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.*",
+    "babel-loader": "^7.1.*",
+    "babel-preset-es2015": "^6.24.*",
+    "css-loader": "^0.28.*",
+    "extract-text-webpack-plugin": "^3.0.*",
+    "style-loader": "^0.19.*",
+    "webpack": "^3.8.*"
+  },
+  "bugs": {
+    "url": "https://github.com/consbio/Leaflet.HtmlLegend/issues"
+  },
+  "peerDependencies": {
+    "leaflet": "^1.3.*"
+  },
+  "main": "dist/L.Control.HtmlLegend.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/consbio/Leaflet.HtmlLegend"
+  },
+  "keywords": [
+    "leaflet",
+    "leaflet-legend",
+    "leaflet-html-legend"
+  ]
+}
