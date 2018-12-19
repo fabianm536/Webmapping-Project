@@ -1,0 +1,17 @@
+jQuery(document).on('submit','formSelect',function(event){
+    event.preventDefault();
+    jQuery.ajax({
+        url:'../php/getData.php',
+        type:'POST',
+        datatype:'json'
+    })
+    .done(function(respuesta){
+        console.log(respuesta);
+      })
+    .fail(function(resp){
+        console.log(resp.responseText);
+    })
+    .always(function(){
+        console.log("complete");
+    })
+});
