@@ -1,7 +1,7 @@
 <?php
             $user="postgres";
             $password="postgres";
-            $dbname="lorena";
+            $dbname="webmapping";
             $port="5432";
             $host="localhost";
 

@@ -16,30 +16,23 @@ function initialize(){
     var urlLight = 'https://api.mapbox.com/styles/v1/lorenaposada/cjok5nnw70j2b2sqrx17y9cff/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibG9yZW5hcG9zYWRhIiwiYSI6IjdCcGNDZzAifQ.vel_GiKVU4-YeKnbmh0ELQ';
     var light = new L.TileLayer(urlLight).addTo(map);
     
-
 	var options =	{
 	center: new L.LatLng(4.55, -74.1),
 	zoom: 9,
 	layers:[light],
 	};
-
-    var wmsLayer2 = L.tileLayer.wms('http://serviciosgis.catastrobogota.gov.co/arcgis/services/Imagenes/Ortho2014/MapServer/WMSServer', {
-    layers: 'Ortho 2014'
-    });
     
     //cartes base
     var baseMaps = {
         "light":light,
         "osm":osm,
-        "ortho2014":wmsLayer2
          };
     
-    //control d'escale
-    map.addControl(L.control.scale({                           
-        position: 'bottomright',
-		imperial: true
-        }));
-    
+    //ajouter geojson
+    var commBog = L.geoJson(combog,{
+        style: definestyle
+    }).addTo(map);
+ 
     //ajouter result de requet postgis
 	var secteurs = $.ajax({
 	  url:"http://localhost/webmapping/php/getData.php?",
@@ -58,18 +51,16 @@ function initialize(){
                 }
         }).addTo(map);
 	});
-
-    //control layers
-    L.control.layers(baseMaps).addTo(map);
+    
+        //control d'escale
+    map.addControl(L.control.scale({                           
+        position: 'bottomright',
+		imperial: true
+        }));
     
     //minimap
     var osm2 = new L.TileLayer(urlOsm);
     var miniMap = new L.Control.MiniMap(osm2,{position:'bottomleft'}).addTo(map);
-    
-    //ajouter geojson
-    var commBog = L.geoJson(combog,{
-        style: definestyle
-    }).addTo(map);
     
     //SearchControl
     var searchControl = new L.Control.Search({
@@ -96,6 +87,22 @@ function initialize(){
     
     //navigation
     L.control.navbar().addTo(map);
+    
+    //Geocoder
+    L.Control.geocoder().addTo(map);
+    
+    
+    //affichage des couches
+    var overlayMaps = {                        
+        "Communes": commBog
+        };
+            L.control.layers(baseMaps, overlayMaps,{position: 'topright'}).addTo(map);
+    
+    //layer group
+    //var groupLayer = L.layerGroup([commBog]);
+    
+    //control layers
+    //L.control.layers(baseMaps, groupLayer).addTo(map);
 
     
  //cloropleth geojson
