@@ -4,35 +4,25 @@
 		<meta charset="utf-8">
 		<title>Webmapping</title>
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-        <script src="lib/leaflet-search-master/src/leaflet-search.js"></script>
-        <link rel="stylesheet" href="lib/leaflet-search-master/src/leaflet-search.css" />
-        <script type="text/javascript" src="communes.js"></script>
+
     </head>
     
     <body>
         <header>
-            <div class = "container">
-            <h1>comunnes</h1>
-            </div>
+
         </header>
         <center>
-        <h1>elija una comuna</h1><br>
-            <div class="panel info">
-              <div class="panel gheading">
-                  <strong> comuna</strong>
-                </div>
-            </div>
+
             <form id="formSelect">
                 <?php
                 require 'php/conndb.php';
                 $query="SELECT loccodigo, locnombre FROM communes ORDER BY loccodigo ASC";
                 $resultado = pg_query($conexion, $query)or die("error en la consulta SQL");
                 $numReg = pg_num_rows($resultado);
-
                 if($numReg>0){
                 ?>
                 <select required name="idcommune" >
-                    <option selected></option>
+                    <option selected>Commune</option>
                     <?php
                     while ($fila=pg_fetch_array($resultado)){
                     echo '<option value = "'.$fila['loccodigo'].'">'.$fila['locnombre']."</option>";
@@ -47,7 +37,7 @@
                     ?>
 				
 				<select required name="surface" >
-					<option selected></option>
+					<option selected>Surface</option>
 					<option value = "< 40">Moins de 40</option>
 					<option value = "between 40 and 60">de 40 à 60</option>
 					<option value = "between 60 and 80">de 60 à 80</option>
@@ -62,7 +52,7 @@
 				</select>
 				
 				<select required name="prix">
-					<option selected></option>
+					<option selected>Prix m2</option>
 					<option value = "< 100">Moins de 100</option>
 					<option value = "between 100 and 200">de 100 à 200</option>
 					<option value = "between 200 and 300">de 200 à 300</option>
@@ -74,6 +64,9 @@
             </form>
         </center>
         <div id="map" style="position: absolute;top: 100;left: 100;width: 99%;height: 70%;"></div>
+		
+		<div class="modal"></div>	
+			
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
         <script src="lib/Leaflet-MiniMap-master/src/Control.MiniMap.js" type="text/javascript"></script>
