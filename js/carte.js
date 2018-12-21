@@ -42,7 +42,7 @@ function initialize(){
     
     //ajouter result de requet postgis
 	var secteurs = $.ajax({
-	  url:"http://localhost/webmapping/php/getData.php?",
+	  url:"http://localhost/Webmapping-Project/php/getData.php?idcommune=09&surface=between+80+and+100&prix=between+100+and+200",
 	  dataType: "json",
 	  success: console.log("County data successfully loaded."),
 	  error: function (xhr) {
