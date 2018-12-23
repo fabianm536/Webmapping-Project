@@ -1,5 +1,4 @@
 $(document).ready(initialize);
-$body = $("body");
 
 
 function initialize(){
@@ -52,37 +51,40 @@ function getData(){
 
 	$("#formSelect").submit(function(event) {
 	
-	event.preventDefault();
-		
-	$("#result").html('');
-	
-	//creer values pour get php a partir de form
-    var values = $(this).serialize();
-		
-	//efacer carte
-	map.removeLayer(resultLayer);
-		
-		
-	$.getJSON( "php/getData.php", values )
-	.done(function( data, textStatus, jqXHR ) {
-		if ( console && console.log ) {
-			//url pour recuperer geoJson resulta de php
-			var url = "http://localhost/Webmapping-Project/php/getData.php?"+values;
-			console.log(url);
-			
-			//executer resData pour charger le geojson a la carte
-			resData(url);
-		}
-	})
-	.fail(function( jqXHR, textStatus, errorThrown){
-		if ( console && console.log ) {
-			console.log( "Quelque chose a échoué: " +  textStatus );
-		}
-	});    
+		//please wait modal
+		showModal()
 
-	
-		
-})
+		event.preventDefault();
+
+		$("#result").html('');
+
+		//creer values pour get php a partir de form
+		var values = $(this).serialize();
+
+		//efacer carte
+		map.removeLayer(resultLayer);
+
+
+		$.getJSON( "php/getData.php", values )
+		.done(function( data, textStatus, jqXHR ) {
+			if ( console && console.log ) {
+				//url pour recuperer geoJson resulta de php
+				var url = "http://localhost/Webmapping-Project/php/getData.php?"+values;
+				console.log(url);
+
+				//executer resData pour charger le geojson a la carte
+				resData(url);
+			}
+		})
+		.fail(function( jqXHR, textStatus, errorThrown){
+			if ( console && console.log ) {
+				console.log( "Quelque chose a échoué: " +  textStatus );
+			}
+		});    
+
+
+
+	})
 }
 
 function resData(url){
@@ -101,15 +103,23 @@ function resData(url){
 		//ajouter geojson avec des labels en popup
 		resultLayer = L.geoJSON(resultData.responseJSON,{
             onEachFeature: function (feature, layer) {
-					layer.bindPopup("Localidad: "+feature.properties.locnombre+"<br>Surface m2: "+feature.properties.aream2+"<br>Prix m2: "+feature.properties.prixm2+"<br>Adresse: "+feature.properties.adr+"<br>url: "+ "<a href='"+feature.properties.url+"'target='_blank'>Streetview</a>" );
+					layer.bindPopup("Localidad: "+feature.properties.locnombre+"<br>Surface: "+parseFloat(feature.properties.aream2).toFixed( 2 )+" m2<br>Prix: "+parseFloat(feature.properties.prixm2).toFixed( 2) +" €/m2<br>Adresse: "+feature.properties.adr+"<br>url: "+ "<a href='"+feature.properties.url+"'target='_blank'>Streetview</a>" );
                 }
         }).addTo(map);
 		
 		//zoomto couche resultat
 		map.fitBounds(resultLayer.getBounds());
+		
+		//hide and destroy please wait modal
+		$('body').loadingModal('hide');
+		$('body').loadingModal('destroy');
 	});
 	
 }
 
 };
+
+function showModal() {
+	$('body').loadingModal({text: 'Loading...', backgroundColor: '#3498db',})
+}
 
