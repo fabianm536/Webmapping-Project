@@ -17,7 +17,7 @@
         </header>
         <center>
 
-            <form id="formSelect">
+            <form class= "box" id="formSelect">
                 <?php
                 require 'php/conndb.php';
                 $query="SELECT loccodigo, locnombre FROM communes ORDER BY loccodigo ASC";

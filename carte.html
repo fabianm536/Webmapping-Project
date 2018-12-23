@@ -34,6 +34,8 @@
                 $numReg = pg_num_rows($resultado);
                 if($numReg>0){
                 ?>
+                
+                <div class="custom-selected" style="width:200px;">
                 <select required name="idcommune" >
                     <option selected>Commune</option>
                     <?php
@@ -63,7 +65,7 @@
 					<option value = "between 450 and 500">de 450 à 500</option>
 					<option value = "> 500">plus de 500</option>
 				</select>
-        <select required name="prix">
+                <select required name="prix">
 					<option selected>Prix m2</option>
 					<option value = "< 100">Moins de 100</option>
 					<option value = "between 100 and 200">de 100 à 200</option>
@@ -73,8 +75,8 @@
 					<option value = "> 500">Plus de 500 </option>
 				</select>
                 <p><input type="submit" value="Send"/></p>
+                </div>
             </form>
-    </div>
 </form>
 <div id="map"></div>
 <div id="mouse-position"></div>
