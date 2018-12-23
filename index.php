@@ -5,6 +5,8 @@
 		<title>Webmapping</title>
 			
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+			
+		<link rel="stylesheet" href="lib/Fullscreen-Loading-Modal-Indicator-Plugin-For-jQuery-loadingModal/css/jquery.loadingModal.css">
 
     </head>
     
@@ -69,11 +71,12 @@
 			
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		
+		<script src="lib/Fullscreen-Loading-Modal-Indicator-Plugin-For-jQuery-loadingModal/js/jquery.loadingModal.js"></script>
+		
         <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
         <script src="lib/Leaflet-MiniMap-master/src/Control.MiniMap.js" type="text/javascript"></script>
 		
         <script type="text/javascript" src="js/main.js"></script>
 		
-		<div class="modal"><!-- Place at bottom of page --></div>
 	</body>
 </html>
