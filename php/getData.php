@@ -16,8 +16,13 @@ $field2 = 'aream2';
 $table3 = 'adresse';	
  
 //create sql statement 
-
-$sql = "SELECT ST_AsGeoJSON(ST_Transform(p.geom,4326)) as geojson, $field, $field1, $field2 , (a.pdonvial || ' ' || a.pdotexto) as adr, ('https://www.google.com/maps?q&layer=c&cbll='||ST_Y(ST_intersection(a.geom, a.geom))||','|| ST_X(ST_intersection(a.geom, a.geom))||'&cbp=12,180,0,0,0&z=18') as url FROM $table1 b LEFT JOIN $table c ON st_intersects(c.geom,b.geom) LEFT JOIN $table2 p ON st_intersects(b.geom,p.geom) LEFT JOIN $table3 a ON st_intersects(a.geom,p.geom) WHERE loccodigo = '$idcommune' and (prixm2 $prix) and (p.aream2 $surface)";
+$select1 = "SELECT ST_AsGeoJSON(ST_Transform(p.geom,4326)) as geojson";
+//url streetview
+$concaturl = "(a.pdonvial || ' ' || a.pdotexto) as adr, ('https://www.google.com/maps?q&layer=c&cbll='||ST_Y(ST_intersection(a.geom, a.geom))||','|| ST_X(ST_intersection(a.geom, a.geom))||'&cbp=12,180,0,0,0&z=18')";
+//where
+$where = "loccodigo = '$idcommune' and (prixm2 $prix) and (p.aream2 $surface)";
+//sql statement final
+$sql = "$select1, $field, $field1, $field2 , $concaturl as url FROM $table1 b LEFT JOIN $table c ON st_intersects(c.geom,b.geom) LEFT JOIN $table2 p ON st_intersects(b.geom,p.geom) LEFT JOIN $table3 a ON st_intersects(a.geom,p.geom) WHERE $where";
 
 $result = pg_query($conexion,$sql);
 

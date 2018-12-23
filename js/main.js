@@ -1,4 +1,6 @@
 $(document).ready(initialize);
+$body = $("body");
+
 
 function initialize(){
 	var map = L.map('map',{
@@ -49,28 +51,32 @@ function initialize(){
 function getData(){
 
 	$("#formSelect").submit(function(event) {
-		
-	showPleaseWait()
-		
-    event.preventDefault();
+	
+	event.preventDefault();
 		
 	$("#result").html('');
-
+	
+	//creer values pour get php a partir de form
     var values = $(this).serialize();
+		
+	//efacer carte
 	map.removeLayer(resultLayer);
 		
 		
 	$.getJSON( "php/getData.php", values )
 	.done(function( data, textStatus, jqXHR ) {
 		if ( console && console.log ) {
+			//url pour recuperer geoJson resulta de php
 			var url = "http://localhost/Webmapping-Project/php/getData.php?"+values;
 			console.log(url);
+			
+			//executer resData pour charger le geojson a la carte
 			resData(url);
 		}
 	})
 	.fail(function( jqXHR, textStatus, errorThrown){
 		if ( console && console.log ) {
-			console.log( "Algo ha fallado: " +  textStatus );
+			console.log( "Quelque chose a échoué: " +  textStatus );
 		}
 	});    
 
@@ -89,16 +95,18 @@ function resData(url){
 	}
 	})
     
-    //ajouter geojson avec des labels en popup
+    
 	$.when(resultData).done(function() {
 		
+		//ajouter geojson avec des labels en popup
 		resultLayer = L.geoJSON(resultData.responseJSON,{
             onEachFeature: function (feature, layer) {
 					layer.bindPopup("Localidad: "+feature.properties.locnombre+"<br>Surface m2: "+feature.properties.aream2+"<br>Prix m2: "+feature.properties.prixm2+"<br>Adresse: "+feature.properties.adr+"<br>url: "+ "<a href='"+feature.properties.url+"'target='_blank'>Streetview</a>" );
                 }
         }).addTo(map);
+		
+		//zoomto couche resultat
 		map.fitBounds(resultLayer.getBounds());
-		hidePleaseWait()
 	});
 	
 }
