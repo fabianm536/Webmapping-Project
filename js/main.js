@@ -49,6 +49,9 @@ function initialize(){
 function getData(){
 
 	$("#formSelect").submit(function(event) {
+		
+	showPleaseWait()
+		
     event.preventDefault();
 		
 	$("#result").html('');
@@ -95,6 +98,7 @@ function resData(url){
                 }
         }).addTo(map);
 		map.fitBounds(resultLayer.getBounds());
+		hidePleaseWait()
 	});
 	
 }
