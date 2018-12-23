@@ -27,12 +27,7 @@ h3{
     margin-top: 0px;
 }
 
-form
-{
-    height: 20px;
-}
-
-.box select
+.form
 {
     background: #2980b9;
     color: #fff;
