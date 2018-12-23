@@ -91,7 +91,7 @@ function resData(url){
 		
 		resultLayer = L.geoJSON(resultData.responseJSON,{
             onEachFeature: function (feature, layer) {
-					layer.bindPopup("Localidad: "+feature.properties.locnombre+"<br>Surface m2: "+feature.properties.aream2+"<br>Prix m2: "+feature.properties.prixm2);
+					layer.bindPopup("Localidad: "+feature.properties.locnombre+"<br>Surface m2: "+feature.properties.aream2+"<br>Prix m2: "+feature.properties.prixm2+"<br>Adresse: "+feature.properties.adr+"<br>url: "+ "<a href='"+feature.properties.url+"'target='_blank'>Streetview</a>" );
                 }
         }).addTo(map);
 		map.fitBounds(resultLayer.getBounds());

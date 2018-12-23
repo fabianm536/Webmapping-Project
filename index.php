@@ -64,8 +64,6 @@
             </form>
         </center>
         <div id="map" style="position: absolute;top: 100;left: 100;width: 99%;height: 70%;"></div>
-		
-		<div class="modal"></div>	
 			
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
