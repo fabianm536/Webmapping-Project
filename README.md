@@ -34,4 +34,5 @@ GIS application for real state by multi criteria searching
 * https://medium.com/@maptastik/loading-external-geojson-a-nother-way-to-do-it-with-jquery-c72ae3b41c01
 
 * https://www.mapbox.com/studio/styles/mapbox/light-v9/
-https://fonts.google.com/specimen/Quicksand
+* https://fonts.google.com/specimen/Quicksand
+* https://www.jqueryscript.net/loading/Fullscreen-Loading-Modal-Indicator-Plugin-For-jQuery-loadingModal.html
