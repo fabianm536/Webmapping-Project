@@ -1,13 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand:400,700');
 #map {
+    position: absolute;
+    top: 100;
+    left; 100;
     width: 100%;
-    height: 80%;
+    height: 100%;
     border: none;
 }
 
 body {
     margin:auto;
 }
+
 h1{
     font-family: 'Quicksand', sans-serif;
     color:#e74c3c;
@@ -15,7 +19,7 @@ h1{
     bottom:2px;
     padding-top: 10px;
     width: 500px;
-    left:150px;
+    left:180px;
     margin-bottom: 0px;
 }
 
@@ -23,15 +27,32 @@ h3{
     font-family: 'Quicksand', sans-serif;
     color:#95a5a6;
     position:relative;
-    padding-left: 150px;
+    padding-left: 180px;
     margin-top: 0px;
+    height: 1px;
 }
 
+select{
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    border: none;
+    color: #fff;
+    text-align: center;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;    
+}
+
+.box select{
+    background: #3498db;
+    height: 40px;
+    width: 140px;
+}
 
 img
 {
     height: auto;
-    width: 120px;
+    width: 130px;
     position:relative;
     bottom:70px;
     left:10px;
