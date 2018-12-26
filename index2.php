@@ -22,11 +22,11 @@
         <h1>Prix Foncier de Bogotá App</h1>
         <h3> Consultez ici </h3>
             <div class="img" style="height: 22px;">
-                <img src="Images/home4.png"/>
-                <img src="Images/logosu.png" padding-right:""30px;align="right" style= "height:100px; width:400px;padding-left: 870px;top:-90px;"/>
+                <img src="Images/home4.png" align="left, center"/>
+                <img src="Images/logosu.png" align="right, center" style= "height:100px; width:400px;padding-left:870px;top:-90px; padding-right:30px"/>
             </div>
-
             <form class= "box" id="formSelect" style="width: 1000px; height:57px; padding-left:180px; margin-bottom:10px;">
+            <div class="row">
                 <?php
                 require 'php/conndb.php';
                 $query="SELECT loccodigo, locnombre FROM communes ORDER BY loccodigo ASC";
@@ -73,7 +73,8 @@
 					<option value = "between 400 and 500">de 400 à 500</option>
 					<option value = "> 500">Plus de 500 </option>
 				</select>
-                <p><input type="submit" value="Send" /></p>
+                <p><input type="submit" value="Aller"/></p>
+                </div>
             </form>
         </header>
         
