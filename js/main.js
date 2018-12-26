@@ -115,6 +115,8 @@ function getData(){
 		.fail(function( jqXHR, textStatus, errorThrown){
 			if ( console && console.log ) {
 				console.log( "Quelque chose a échoué: " +  textStatus );
+				$('body').loadingModal('hide');
+				$('body').loadingModal('destroy');
 			}
 		});    
 
