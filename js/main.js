@@ -1,7 +1,9 @@
 $(document).ready(initialize);
 
+var tabLog = [];
 
 function initialize(){
+    
 	var map = L.map('map',{
     crs: L.CRS.EPSG3857,
 	minZoom: 2,
@@ -28,6 +30,11 @@ function initialize(){
 		transparent: true,
 		opacity: 0.3
 	});	
+    
+    //ajouter geojson communes
+    var commBog = L.geoJson(combog,{
+        style: definestyle
+    }).addTo(map);
 
 	var options =	{
 	center: new L.LatLng(4.55, -74.1),
@@ -38,6 +45,8 @@ function initialize(){
 	var lyrGroup = L.layerGroup([secteurCadastral]);
 	var lyrGroup2 = L.layerGroup([bloc]);
     
+
+    
     //cartes base
     var baseMaps = {
         "light":light,
@@ -47,7 +56,8 @@ function initialize(){
 	//overlayMaps
 	var overlayMaps = {
     "Secteur cadastral": lyrGroup,
-	"Bloc": lyrGroup2
+	"Bloc": lyrGroup2,
+    "Communes": commBog
 	};		
     
     //control d'escale
@@ -55,7 +65,6 @@ function initialize(){
         position: 'bottomright',
 		imperial: true
         }));
-    
 
     //minimap
     var osm2 = new L.TileLayer(urlOsm);
@@ -64,24 +73,70 @@ function initialize(){
     //control layers
     L.control.layers(baseMaps,overlayMaps).addTo(map);
 	
-	 //ajouter legend
-    var legend = L.control({position: 'bottomright'});
-	
-	legend.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend');
-
-            div.innerHTML +=
-            '<img src="leyenda4.png" alt="legend" width="50" height="50">';
-
-        return div;
-        };
-
-    legend.addTo(map);
-	
 	//function pour recuperer et ajouter la couche resultat du query
 	getData()
 	
+    //navigation
+    L.control.navbar().addTo(map);
+    
+    //Geocoder
+    L.Control.geocoder().addTo(map);
+    
+    //cloropleth geojson
+    function getColor(d) {
+        if (d < 100) return '#008855'
+        else if (d < 200) return '#13be00'
+        else if (d < 300) return '#aee500'
+        else if (d < 400) return '#fff831'
+        else if (d < 500) return '#ff7b16'
+        else return '#c80000';
+      }
+            
+    //Associer la plage de coulour à un champ
+    function definestyle(feature){
+        return {
+            fillColor: 
+            getColor(feature.properties.prix),
+            weight: 2,
+            opacity: 1,
+			color: 'white',
+            fillOpacity: 0.7
+				};
+			}
 
+    //Style requetes
+    function definestyle2(feature){
+        return {
+            fillColor: 
+            getColor(feature.properties.prix),
+            weight: 2,
+            opacity: 1,
+			color:
+            getColor(feature.properties.prix),
+            fillOpacity: 0.7
+				};
+			}
+    
+    //legend
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 100, 200, 300, 400, 500],
+        labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+        
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+    return div;
+    };
+
+    legend.addTo(map);
 
 function getData(){
 
@@ -135,12 +190,32 @@ function resData(url){
     
     
 	$.when(resultData).done(function() {
-		
+        
+        
 		//ajouter geojson avec des labels en popup
 		resultLayer = L.geoJSON(resultData.responseJSON,{
+            style: definestyle2,
             onEachFeature: function (feature, layer) {
-					layer.bindPopup("Localidad: "+feature.properties.locnombre+"<br>Surface: "+parseFloat(feature.properties.aream2).toFixed( 2 )+" m2<br>Prix: "+parseFloat(feature.properties.prixm2).toFixed( 2) +" €/m2<br>Adresse: "+feature.properties.adr+"<br>url: "+ "<a href='"+feature.properties.url+"'target='_blank'>Streetview</a>" );
+                layer.on('click', function (e) {
+                    
+                    var div=document.getElementById("textResult"); 
+							var text = '<p style="white-space: nowrap;"><b>' + feature.properties.locnombre + '</b></br>';
+							text = text + '- Surface m2:  ' + Math.round(parseFloat(feature.properties.aream2)) + " m2" + '</br>';
+							text = text + "- Prix m2:   " + Math.round(parseFloat(feature.properties.prixm2))+ " €/m2" + '</br>';
+							text = text + "- Adresse :  " + feature.properties.adr + '</br>';
+							text = text + '- url: ' + "<a href='"+feature.properties.url+"'target='_blank'>Streetview</a>";
+                             text = text	+ '</p>';
+							div.innerHTML = text;
+                    
+                    //partie à compléter pour remplir le camembert
+							d3.select("#camLog").select("svg").remove();
+							tabLog = [];
+							tabLog.push({"type":"Principale","valeur":feature.properties.P12_RP});
+							tabLog.push({"type":"Secundaire","valeur":feature.properties.P12_RSECOC});
+							tabLog.push({"type":"Vacances","valeur":feature.properties.P12_LOGVAC});
+							addPie();
                 }
+        )}
         }).addTo(map);
 		
 		//zoomto couche resultat
@@ -153,9 +228,8 @@ function resData(url){
 	
 }
 
-};
-
 function showModal() {
 	$('body').loadingModal({text: 'Loading...', backgroundColor: '#3498db',})
 }
 
+}

@@ -22,7 +22,7 @@ $concaturl = "(a.pdonvial || ' ' || a.pdotexto) as adr, ('https://www.google.com
 //where
 $where = "loccodigo = '$idcommune' and (prixm2 $prix) and (p.aream2 $surface)";
 //sql statement final
-$sql = "$select1, $field, $field1, $field2 , $concaturl as url FROM $table1 b LEFT JOIN $table c ON st_intersects(c.geom,b.geom) LEFT JOIN $table2 p ON st_intersects(b.geom,p.geom) LEFT JOIN $table3 a ON st_intersects(a.geom,p.geom) WHERE $where";
+$sql = "$select1, $field, $field1, $field2 FROM $table1 b LEFT JOIN $table c ON st_intersects(c.geom,b.geom) LEFT JOIN $table2 p ON st_intersects(b.geom,p.geom) WHERE $where";
 
 $result = pg_query($conexion,$sql);
 

@@ -78,8 +78,21 @@
             </form>
         </header>
         
-        <div id="map"></div>
-			
+        <center>
+        <div id= "container">
+            <div id="map"></div>              
+            <div id="textResult">
+        
+                <div><img src="Images/bogo2.jpg" style="top: 0px;width: 260px;"/></div>
+                <div style="width: 259px;"> <b>Bogota - Colombie</b> <br> 
+                Altitude 2 640 m <br>
+                Superficie 1 775,98 km2 <br>
+                Population: 8.200.000 (2018) </div>
+
+            </div>
+        </div>
+        </center>
+        
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		
         <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
@@ -102,7 +115,7 @@
         <link rel="stylesheet" href="lib/Leaflet.NavBar-master/src/Leaflet.NavBar.css" />
         <script src="lib/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
         
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+       <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
         <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 		
 		<div class="modal"><!-- Place at bottom of page --></div>
