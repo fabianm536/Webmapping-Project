@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="lib/Leaflet-MiniMap-master/src/Control.MiniMap.min.css">
         <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+        <script src="http://d3js.org/d3.v3.js"type="text/javascript"></script>
         <script type="text/javascript" src="communes.js"></script>
 
     </head>
@@ -88,7 +89,7 @@
                 Altitude 2 640 m <br>
                 Superficie 1 775,98 km2 <br>
                 Population: 8.200.000 (2018) </div>
-
+                <div id = "camemb"></div>
             </div>
         </div>
         </center>

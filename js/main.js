@@ -208,18 +208,11 @@ function resData(url){
 							text = text + '- url: ' + "<a href='"+feature.properties.url+"'target='_blank'>Streetview</a>";
                              text = text	+ '</p>';
 							div.innerHTML = text;
-                    
-                    //partie à compléter pour remplir le camembert
-							d3.select("#camLog").select("svg").remove();
-							tabLog = [];
-							tabLog.push({"type":"Principale","valeur":feature.properties.P12_RP});
-							tabLog.push({"type":"Secundaire","valeur":feature.properties.P12_RSECOC});
-							tabLog.push({"type":"Vacances","valeur":feature.properties.P12_LOGVAC});
-							addPie();
                 }
         )}
         }).addTo(map);
-		
+        
+        		
 		//zoomto couche resultat
 		map.fitBounds(resultLayer.getBounds());
 		
