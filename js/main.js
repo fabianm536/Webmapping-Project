@@ -213,7 +213,8 @@ function resData(url){
                 }
         )}
         }).addTo(map);
-		
+        
+        		
 		//zoomto couche resultat
 		map.fitBounds(resultLayer.getBounds());
 		

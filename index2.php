@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="lib/Leaflet-MiniMap-master/src/Control.MiniMap.min.css">
         <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+        <script src="http://d3js.org/d3.v3.js"type="text/javascript"></script>
         <script type="text/javascript" src="communes.js"></script>
 
     </head>
