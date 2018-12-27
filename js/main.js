@@ -196,7 +196,7 @@ function resData(url){
         
 		//ajouter geojson avec des labels en popup
 		resultLayer = L.geoJSON(resultData.responseJSON,{
-            style: definestyle2,
+            
             onEachFeature: function (feature, layer) {
                 layer.on('click', function (e) {
                     
@@ -209,13 +209,7 @@ function resData(url){
                              text = text	+ '</p>';
 							div.innerHTML = text;
                     
-                    //partie à compléter pour remplir le camembert
-							d3.select("#camLog").select("svg").remove();
-							tabLog = [];
-							tabLog.push({"type":"Principale","valeur":feature.properties.P12_RP});
-							tabLog.push({"type":"Secundaire","valeur":feature.properties.P12_RSECOC});
-							tabLog.push({"type":"Vacances","valeur":feature.properties.P12_LOGVAC});
-							addPie();
+
                 }
         )}
         }).addTo(map);

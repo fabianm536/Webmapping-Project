@@ -88,6 +88,8 @@
                 Altitude 2 640 m <br>
                 Superficie 1 775,98 km2 <br>
                 Population: 8.200.000 (2018) </div>
+				
+				<canvas id="myChart"></canvas>
 
             </div>
         </div>
@@ -115,9 +117,13 @@
         <link rel="stylesheet" href="lib/Leaflet.NavBar-master/src/Leaflet.NavBar.css" />
         <script src="lib/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
         
-       <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
         <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 		
-		<div class="modal"><!-- Place at bottom of page --></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+		<script type="text/javascript" src="js/graph.js"></script>
+		
+		
+		<div class="modal"></div>
 	</body>
 </html>
