@@ -1,15 +1,21 @@
 $(document).ready(initialize);
 
-var tabLog = [];
-
 function initialize(){
     
 	var map = L.map('map',{
-    crs: L.CRS.EPSG3857,
+	crs: L.CRS.EPSG3857,
 	minZoom: 2,
 	maxZoom: 18,
 	zoomControl: true              
-	}).setView([4.65, -74.1], 11);   	
+	}).setView([4.65, -74.1], 11);   
+	
+	var options =	{
+	center: new L.LatLng(4.55, -74.1),
+	zoom: 9,
+	layers:[light],
+	};
+
+
 
 	var urlOsm = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     var osm = new L.TileLayer(urlOsm);  
@@ -21,44 +27,56 @@ function initialize(){
 		layers: 'secteur_cadastral20181223181327392',
 		format: 'image/jpeg',
 		transparent: true,
-		opacity: 0.3
+		opacity: 0.5
 	});
 	
 	var bloc = new L.tileLayer.wms('http://localhost/cgi-bin/webfoncier/qgis_mapserv.fcgi?', {
 		layers: 'bloc20181224162909862',
 		format: 'image/jpeg',
 		transparent: true,
-		opacity: 0.3
+		opacity: 0.5
 	});	
-    
+	
+	var batiment = new L.tileLayer.wms('http://localhost/cgi-bin/webfoncier/qgis_mapserv.fcgi?', {
+		layers: 'batiment20181220190743156',
+		format: 'image/jpeg',
+		transparent: true,
+		opacity: 0.5
+	});	
+   
+   
     //ajouter geojson communes
     var commBog = L.geoJson(combog,{
-        style: definestyle
+        style: definestyle,
     }).addTo(map);
-
-	var options =	{
-	center: new L.LatLng(4.55, -74.1),
-	zoom: 9,
-	layers:[light],
-	};
 	
-	var lyrGroup = L.layerGroup([secteurCadastral]);
-	var lyrGroup2 = L.layerGroup([bloc]);
-    
+	//layers by zoom
+	map.on('zoomend', function() {
+		if (map.getZoom() <13){
+			map.removeLayer(secteurCadastral);
+			map.removeLayer(bloc);
+			map.removeLayer(batiment);
+			map.addLayer(commBog);
+		} else if (map.getZoom() <17) {
+			map.removeLayer(commBog);
+			map.removeLayer(bloc);
+			map.removeLayer(batiment);
+			map.addLayer(secteurCadastral);
+		} else {
+			map.removeLayer(commBog);
+			map.removeLayer(secteurCadastral);
+			map.addLayer(bloc);
+			map.addLayer(batiment);
+		}
+	});
+
 
     
     //cartes base
     var baseMaps = {
         "light":light,
         "osm":osm
-         };
-	
-	//overlayMaps
-	var overlayMaps = {
-    "Secteur cadastral": lyrGroup,
-	"Bloc": lyrGroup2,
-    "Communes": commBog
-	};		
+         };	
     
     //control d'escale
     map.addControl(L.control.scale({                           
@@ -71,7 +89,7 @@ function initialize(){
     var miniMap = new L.Control.MiniMap(osm2,{position:'bottomleft'}).addTo(map);
     
     //control layers
-    L.control.layers(baseMaps,overlayMaps).addTo(map);
+    L.control.layers(baseMaps).addTo(map);
 	
 	//function pour recuperer et ajouter la couche resultat du query
 	getData()
@@ -100,20 +118,7 @@ function initialize(){
             weight: 2,
             opacity: 1,
 			color: 'white',
-            fillOpacity: 0.7
-				};
-			}
-
-    //Style requetes
-    function definestyle2(feature){
-        return {
-            fillColor: 
-            getColor(feature.properties.prix),
-            weight: 2,
-            opacity: 1,
-			color:
-            getColor(feature.properties.prix),
-            fillOpacity: 0.7
+            fillOpacity: 0.4
 				};
 			}
     
@@ -200,7 +205,7 @@ function resData(url){
             onEachFeature: function (feature, layer) {
                 layer.on('click', function (e) {
                     
-                    var div=document.getElementById("textResult"); 
+                    var div=document.getElementById("textBog"); 
 							var text = '<p style="white-space: nowrap;"><b>' + feature.properties.locnombre + '</b></br>';
 							text = text + '- Surface m2:  ' + Math.round(parseFloat(feature.properties.aream2)) + " m2" + '</br>';
 							text = text + "- Prix m2:   " + Math.round(parseFloat(feature.properties.prixm2))+ " €/m2" + '</br>';
@@ -209,7 +214,6 @@ function resData(url){
                              text = text	+ '</p>';
 							div.innerHTML = text;
                     
-
                 }
         )}
         }).addTo(map);
