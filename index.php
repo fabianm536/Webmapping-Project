@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="lib/Leaflet.NavBar-master/src/Leaflet.NavBar.css" />
 		<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
         
-		<script type="text/javascript" src="communes.js"></script>
+		<script type="text/javascript" src="js/communes.js"></script>
 
     </head>
     
