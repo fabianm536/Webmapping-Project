@@ -28,6 +28,11 @@ $sql = "$select1, $field, $field1, $field2 , adr, url, lat, long FROM $table1 b 
 
 $result = pg_query($conexion,$sql);
 
+if (!$result) {
+  echo "An error occurred.\n";
+  exit;
+}
+
 $feature = array(); 
 while ($row = pg_fetch_assoc($result)) { 
 	$res['locnombre'] = $row['locnombre'];

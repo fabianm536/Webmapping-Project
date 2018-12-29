@@ -140,8 +140,9 @@ select{
 	margin-left: 0px;
 }
 
-#chart {
+#myCanvas {
   position: relative;
+  margin-left: 40px;
 }
 
 #map{

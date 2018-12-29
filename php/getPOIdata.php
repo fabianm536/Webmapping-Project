@@ -18,25 +18,20 @@ group by des_activite";
 
 $result = pg_query($conexion,$sql);
 
-
-//echo json_encode(array('sql' => $sql));
+$feature = array(); 
 
 $feature1 = array(); 
+$feature2 = array();
 
 
 while ($row = pg_fetch_assoc($result)) { 
-	$res['axis'] = $row['des_activite'];
-	$res['value'] = $row['dist_min'];
-	
-	$feature[] = json_encode($res);
+
+	$feature1[] = '"' . trim($row['des_activite']) . '"' ;
+	$feature2[] =  (float)$row['dist_min'] ;
 } 
-
-
- echo '[['.implode(', ',$feature).']]';
-
-//echo '{"labels":[' . implode(',',$feature1) . '],' . '"datasets":[{"label":"Distance aux points d' . "'" . 'interet (m)", "backgroundColor": "rgba(153, 51, 255,0.5)", "data":[' . implode(', ',$feature2) . ']}]}';
-
-/*$res['labels'] = "[".implode(', ',$feature1)."],". '"datasets":[{"label":"Distance aux points d' . "'" . 'interet (m)", "backgroundColor": "rgba(153, 51, 255,0.5)", "data":[' . implode(', ',$feature2) . ']}]';
  
-echo json_encode($res);*/
+
+echo '{"labels": [' . implode(', ',$feature1) . '],' . '"datasets": [{	"label": "Distance(Km)", "backgroundColor": "rgba(153, 51, 255,0.5)", "data": [' . implode(', ',$feature2) . ']}]}';
+
+
 ?>

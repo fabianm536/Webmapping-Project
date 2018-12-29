@@ -26,7 +26,6 @@
         <script src="lib/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
         <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-		<script src="http://d3js.org/d3.v3.min.js"></script>
         <script type="text/javascript" src="js/communes.js"></script>
 
     </head>
@@ -120,7 +119,7 @@
 						Population: 8.200.000 (2018) 
 					</div>
 					<div id="graph">
-					  <div id="chart"></div>
+					  <canvas id="myCanvas"></canvas>
 					</div>
 				</div>		
 				
@@ -134,7 +133,6 @@
 		
 		<div class="modal"></div>
 				
-		<script src="lib/d3Radarchart/RadarChart.js"></script>
 		<script type="text/javascript" src="js/graph.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 		

@@ -18,8 +18,11 @@ function initialize(){
 
 
 	var urlOsm = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var osm = new L.TileLayer(urlOsm);  
+    var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}); 
     var urlLight = 'https://api.mapbox.com/styles/v1/lorenaposada/cjok5nnw70j2b2sqrx17y9cff/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibG9yZW5hcG9zYWRhIiwiYSI6IjdCcGNDZzAifQ.vel_GiKVU4-YeKnbmh0ELQ';
+	var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
     var light = new L.TileLayer(urlLight).addTo(map);
     var resultLayer = L.geoJson();
 	
@@ -71,11 +74,15 @@ function initialize(){
     
     //cartes base
     var baseMaps = {
-        "light":light,
-        "osm":osm
+        "Light":light,
+        "OpenStreetMap":OpenStreetMap_Mapnik,
+		"WorldImagery":Esri_WorldImagery
          };	
 	
 	var overlayMaps = {
+		"secteurCadastral": secteurCadastral,
+		"Communes":commBog,
+		"Bloc":bloc,
 		"Batiment": batiment
 		};
     
@@ -90,7 +97,7 @@ function initialize(){
     var miniMap = new L.Control.MiniMap(osm2,{position:'bottomleft'}).addTo(map);
     
     //control layers
-    L.control.layers(baseMaps,overlayMaps).addTo(map);
+    L.control.layers(baseMaps,overlayMaps,{autoZIndex: true}).addTo(map);
 	
 	//function pour recuperer et ajouter la couche resultat du query
 	getData()
@@ -163,7 +170,7 @@ function getData(){
 		map.removeLayer(resultLayer);
 
 		var url = "http://localhost/Webmapping-Project/php/getData.php?"+values;
-		console.log(url);
+		
 
 		var resultData = $.ajax({
 		  url:url,
@@ -176,6 +183,15 @@ function getData(){
 
 
 		$.when(resultData).done(function() {
+			
+			//si aucun resultat
+			if (resultData.responseJSON.features.length===0){
+				//hide and destroy please wait modal
+				$('body').loadingModal('hide');
+				$('body').loadingModal('destroy');
+				alert("Aucun résultat");
+			
+			};
 
 			//ajouter geojson avec des labels en popup
 			resultLayer = L.geoJSON(resultData.responseJSON,{
