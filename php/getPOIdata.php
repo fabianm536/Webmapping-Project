@@ -5,7 +5,7 @@ require 'conndb.php';
 $Xadresse = $_GET['xadresse'];
 $Yadresse = $_GET['yadresse'];
 
-$sql = "select des_activite, MIN(round(cast(distance as numeric),2)) dist_min
+$sql = "select des_activite, (MIN(round(cast(distance/1000 as numeric),2))) dist_min
 from (with index_query as (
   select 
     des_activite,
@@ -22,15 +22,21 @@ $result = pg_query($conexion,$sql);
 //echo json_encode(array('sql' => $sql));
 
 $feature1 = array(); 
-$feature2 = array();
 
 
 while ($row = pg_fetch_assoc($result)) { 
-
-	$feature1[] = '"' . $row['des_activite'] . '"' ;
-	$feature2[] =  $row['dist_min'] ;
+	$res['axis'] = $row['des_activite'];
+	$res['value'] = $row['dist_min'];
+	
+	$feature[] = json_encode($res);
 } 
- 
 
-echo '{"labels": [' . implode(', ',$feature1) . '],' . '"datasets": [{	"label": "Distance aux points d' . "'" . 'interet (m)", "backgroundColor": "rgba(153, 51, 255,0.5)", "data": [' . implode(', ',$feature2) . ']}]}';
+
+ echo '[['.implode(', ',$feature).']]';
+
+//echo '{"labels":[' . implode(',',$feature1) . '],' . '"datasets":[{"label":"Distance aux points d' . "'" . 'interet (m)", "backgroundColor": "rgba(153, 51, 255,0.5)", "data":[' . implode(', ',$feature2) . ']}]}';
+
+/*$res['labels'] = "[".implode(', ',$feature1)."],". '"datasets":[{"label":"Distance aux points d' . "'" . 'interet (m)", "backgroundColor": "rgba(153, 51, 255,0.5)", "data":[' . implode(', ',$feature2) . ']}]';
+ 
+echo json_encode($res);*/
 ?>

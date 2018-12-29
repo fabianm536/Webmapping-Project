@@ -131,11 +131,18 @@ select{
 	margin-left: 40px;
 }
 
-#canevas{
-    width: 90%;
-    height: auto;
+#graph {
+    width: 80%;
+    height: 25%;
+	font-family: 'Quicksand', sans-serif;
+    color:#7e7b7a;
+	float: left;
+	margin-left: 0px;
 }
 
+#chart {
+  position: relative;
+}
 
 #map{
 	width: 80%;

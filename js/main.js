@@ -157,8 +157,7 @@ function getData(){
 
 		//creer values pour get php a partir de form
 		var values = $(this).serialize();
-		
-		console.log(values);
+
 
 		//efacer carte
 		map.removeLayer(resultLayer);
@@ -178,7 +177,6 @@ function getData(){
 
 		$.when(resultData).done(function() {
 
-
 			//ajouter geojson avec des labels en popup
 			resultLayer = L.geoJSON(resultData.responseJSON,{
 
@@ -197,8 +195,8 @@ function getData(){
 						//showgraph
 						showGraph(feature.properties.lat,feature.properties.long);
 
-					}
-			)}
+						}
+				)}
 			}).addTo(map);
 
 

@@ -15,8 +15,19 @@
         <link rel="stylesheet" href="lib/Leaflet.HtmlLegend-master/src/L.Control.HtmlLegend.css" />		        
         <link rel="stylesheet" href="lib/Leaflet.NavBar-master/src/Leaflet.NavBar.css" />
 		<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-        
-		<script type="text/javascript" src="js/communes.js"></script>
+		
+		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+        <script src="lib/Leaflet-MiniMap-master/src/Control.MiniMap.js" type="text/javascript"></script>
+	    <script src="lib/Fullscreen-Loading-Modal-Indicator-Plugin-For-jQuery-loadingModal/js/jquery.loadingModal.js"></script>
+        <script src="lib/leaflet-search-master/src/leaflet-search.js"></script>
+        <script src="lib/Leaflet.HtmlLegend-master/src/L.Control.HtmlLegend.js"></script>
+        <script src="lib/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+        <script type="text/javascript" src="js/communes.js"></script>
 
     </head>
     
@@ -108,8 +119,8 @@
 						Superficie 1 775,98 km2 <br>
 						Population: 8.200.000 (2018) 
 					</div>
-					<div id="canevas">
-						<canvas id="myChart"  width="400" height="400"></canvas>
+					<div id="graph">
+					  <div id="chart"></div>
 					</div>
 				</div>		
 				
@@ -123,17 +134,7 @@
 		
 		<div class="modal"></div>
 				
-		
-        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
-        <script src="lib/Leaflet-MiniMap-master/src/Control.MiniMap.js" type="text/javascript"></script>
-	    <script src="lib/Fullscreen-Loading-Modal-Indicator-Plugin-For-jQuery-loadingModal/js/jquery.loadingModal.js"></script>
-        <script src="lib/leaflet-search-master/src/leaflet-search.js"></script>
-        <script src="lib/Leaflet.HtmlLegend-master/src/L.Control.HtmlLegend.js"></script>
-        <script src="lib/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
-        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+		<script src="lib/d3Radarchart/RadarChart.js"></script>
 		<script type="text/javascript" src="js/graph.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 		

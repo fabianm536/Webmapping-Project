@@ -36,3 +36,4 @@ GIS application for real state by multi criteria searching
 * https://www.mapbox.com/studio/styles/mapbox/light-v9/
 * https://fonts.google.com/specimen/Quicksand
 * https://www.jqueryscript.net/loading/Fullscreen-Loading-Modal-Indicator-Plugin-For-jQuery-loadingModal.html
+* http://bl.ocks.org/nbremer/6506614
