@@ -55,18 +55,15 @@ function initialize(){
 		if (map.getZoom() <13){
 			map.removeLayer(secteurCadastral);
 			map.removeLayer(bloc);
-			map.removeLayer(batiment);
 			map.addLayer(commBog);
 		} else if (map.getZoom() <17) {
 			map.removeLayer(commBog);
 			map.removeLayer(bloc);
-			map.removeLayer(batiment);
 			map.addLayer(secteurCadastral);
 		} else {
 			map.removeLayer(commBog);
 			map.removeLayer(secteurCadastral);
 			map.addLayer(bloc);
-			map.addLayer(batiment);
 		}
 	});
 
@@ -77,6 +74,10 @@ function initialize(){
         "light":light,
         "osm":osm
          };	
+	
+	var overlayMaps = {
+		"Batiment": batiment
+		};
     
     //control d'escale
     map.addControl(L.control.scale({                           
@@ -89,7 +90,7 @@ function initialize(){
     var miniMap = new L.Control.MiniMap(osm2,{position:'bottomleft'}).addTo(map);
     
     //control layers
-    L.control.layers(baseMaps).addTo(map);
+    L.control.layers(baseMaps,overlayMaps).addTo(map);
 	
 	//function pour recuperer et ajouter la couche resultat du query
 	getData()
@@ -156,78 +157,65 @@ function getData(){
 
 		//creer values pour get php a partir de form
 		var values = $(this).serialize();
+		
+		console.log(values);
 
 		//efacer carte
 		map.removeLayer(resultLayer);
 
+		var url = "http://localhost/Webmapping-Project/php/getData.php?"+values;
+		console.log(url);
 
-		$.getJSON( "php/getData.php", values )
-		.done(function( data, textStatus, jqXHR ) {
-			if ( console && console.log ) {
-				//url pour recuperer geoJson resulta de php
-				var url = "http://localhost/Webmapping-Project/php/getData.php?"+values;
-				console.log(url);
-
-				//executer resData pour charger le geojson a la carte
-				resData(url);
-			}
+		var resultData = $.ajax({
+		  url:url,
+		  dataType: "json",
+		  success: console.log("Data successfully loaded."),
+		  error: function (xhr) {
+		alert(xhr.statusText)
+		}
 		})
-		.fail(function( jqXHR, textStatus, errorThrown){
-			if ( console && console.log ) {
-				console.log( "Quelque chose a échoué: " +  textStatus );
-				$('body').loadingModal('hide');
-				$('body').loadingModal('destroy');
-			}
-		});    
 
 
+		$.when(resultData).done(function() {
 
-	})
-}
 
-function resData(url){
-	var resultData = $.ajax({
-	  url:url,
-	  dataType: "json",
-	  success: console.log("Data successfully loaded."),
-	  error: function (xhr) {
-	alert(xhr.statusText)
-	}
-	})
-    
-    
-	$.when(resultData).done(function() {
-        
-        
-		//ajouter geojson avec des labels en popup
-		resultLayer = L.geoJSON(resultData.responseJSON,{
-            
-            onEachFeature: function (feature, layer) {
-                layer.on('click', function (e) {
-                    
-                    var div=document.getElementById("textBog"); 
-							var text = '<p style="white-space: nowrap;"><b>' + feature.properties.locnombre + '</b></br>';
-							text = text + '- Surface m2:  ' + Math.round(parseFloat(feature.properties.aream2)) + " m2" + '</br>';
-							text = text + "- Prix m2:   " + Math.round(parseFloat(feature.properties.prixm2))+ " €/m2" + '</br>';
-							text = text + "- Adresse :  " + feature.properties.adr + '</br>';
-							text = text + '- url: ' + "<a href='"+feature.properties.url+"'target='_blank'>Streetview</a>";
-                             text = text	+ '</p>';
-							div.innerHTML = text;
-                    
-                }
-        )}
-        }).addTo(map);
-        
-        		
-		//zoomto couche resultat
-		map.fitBounds(resultLayer.getBounds());
-		
-		//hide and destroy please wait modal
-		$('body').loadingModal('hide');
-		$('body').loadingModal('destroy');
+			//ajouter geojson avec des labels en popup
+			resultLayer = L.geoJSON(resultData.responseJSON,{
+
+				onEachFeature: function (feature, layer) {
+					layer.on('click', function (e) {
+
+						var div=document.getElementById("textBog"); 
+								var text = '<p style="white-space: nowrap;"><b>' + feature.properties.locnombre + '</b></br>';
+								text = text + '- Surface m2:  ' + Math.round(parseFloat(feature.properties.aream2)) + " m2" + '</br>';
+								text = text + "- Prix m2:   " + Math.round(parseFloat(feature.properties.prixm2))+ " €/m2" + '</br>';
+								text = text + "- Adresse :  " + feature.properties.adr + '</br>';
+								text = text + '- url: ' + "<a href='"+feature.properties.url+"'target='_blank'>Streetview</a>";
+								 text = text	+ '</p>';
+								div.innerHTML = text;
+						
+						//showgraph
+						showGraph(feature.properties.lat,feature.properties.long);
+
+					}
+			)}
+			}).addTo(map);
+
+
+			//zoomto couche resultat
+			map.fitBounds(resultLayer.getBounds());
+			
+			
+
+
+			//hide and destroy please wait modal
+			$('body').loadingModal('hide');
+			$('body').loadingModal('destroy');
+		});
+
 	});
-	
 }
+
 
 function showModal() {
 	$('body').loadingModal({text: 'Loading...', backgroundColor: '#3498db',})

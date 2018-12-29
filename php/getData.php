@@ -19,12 +19,12 @@ $table3 = 'adresse';
 $select1 = "SELECT ST_AsGeoJSON(ST_Transform(p.geom,4326)) as geojson";
 
 //sql adresse unique et url streetview
-$selectadresse = "SELECT distinct ON (p.lotcodigo) a.pdoclote, (a.pdonvial || ' ' || a.pdotexto) as adr, ('https://www.google.com/maps?q&layer=c&cbll='||ST_Y(ST_intersection(a.geom, a.geom))||','|| ST_X(ST_intersection(a.geom, a.geom))||'&cbp=12,180,0,0,0&z=18') as url from parcelle p inner join adresse a on a.pdoclote = p.lotcodigo WHERE (p.aream2 $surface) order by p.lotcodigo, a.id desc";
+$selectadresse = "SELECT distinct ON (p.lotcodigo) a.pdoclote, (a.pdonvial || ' ' || a.pdotexto) as adr, ('https://www.google.com/maps?q&layer=c&cbll='||ST_Y(ST_intersection(a.geom, a.geom))||','|| ST_X(ST_intersection(a.geom, a.geom))||'&cbp=12,180,0,0,0&z=18') as url, ST_Y(ST_intersection(a.geom, a.geom)) as lat, ST_X(ST_intersection(a.geom, a.geom)) as long from parcelle p inner join adresse a on a.pdoclote = p.lotcodigo WHERE (p.aream2 $surface) order by p.lotcodigo, a.id desc";
 
 //where
 $where = "loccodigo = '$idcommune' and (prixm2 $prix) and (p.aream2 $surface)";
 //sql statement final
-$sql = "$select1, $field, $field1, $field2 , adr, url FROM $table1 b LEFT JOIN $table c ON st_intersects(c.geom,b.geom) LEFT JOIN $table2 p ON st_intersects(b.geom,p.geom) LEFT JOIN ($selectadresse) s1 ON s1.pdoclote = p.lotcodigo WHERE $where";
+$sql = "$select1, $field, $field1, $field2 , adr, url, lat, long FROM $table1 b LEFT JOIN $table c ON st_intersects(c.geom,b.geom) LEFT JOIN $table2 p ON st_intersects(b.geom,p.geom) LEFT JOIN ($selectadresse) s1 ON s1.pdoclote = p.lotcodigo WHERE $where";
 
 $result = pg_query($conexion,$sql);
 
@@ -35,6 +35,8 @@ while ($row = pg_fetch_assoc($result)) {
 	$res['aream2'] = $row['aream2'];
 	$res['adr'] = $row['adr'];
 	$res['url'] = $row['url'];
+	$res['lat'] = $row['lat'];
+	$res['long'] = $row['long'];
     $geom = $row['geojson']; // chargement de la colonne géométrique en GeoJSON 
 
     $feature[] = '{"type": "Feature", "geometry": ' . $geom . ', "properties": ' . json_encode($res) . '}'; // création de l'objet GeoJSON contenant la géométrie et les valeurs attributaires d'un enregistrement de la base 

@@ -1,38 +1,34 @@
-var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
+function showGraph(lat,long){
+	
+	var ctx = document.getElementById("myChart");
+/*	
+	var values = "xadresse="+long+"&yadresse="+lat;	
 
+	var url = "http://localhost/Webmapping-Project/php/getPOIdata.php?"+values;
+
+
+	var marksData = $.ajax({
+	  url:url,
+	  type: "GET",
+	  dataType: "json",
+	  complete: function (data) {
+		  
+			var myRadarChart = new Chart(ctx, {
+			type: 'radar',
+			data: data.responseJSON
+			});
+		  
+		  	console.log(url);
+		}
+		});
+*/
+
+
+var marksData = {"labels": ["Établissement d'enseignement ", "Cinema ", "Turistique ", "Bureau d’affairs ", "Centre commerciel ", "Temple ", "Secours ", "Supermarche ", "Centre sportif ", "Hotel ", "Ambassade ", "Universite ", "Hopital "],"datasets": [{ "label": "Distance aux points d'interet (m)", "backgroundColor": "rgba(153, 51, 255,0.5)", "data": [340.44, 181.91, 196.04, 118.57, 46.78, 250.43, 204.73, 183.26, 538.94, 149.32, 678.71, 101.33, 549.53]}]};
+
+	var myRadarChart = new Chart(ctx, {
+		type: 'radar',
+		data: marksData
+		});
+
+}

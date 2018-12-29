@@ -5,7 +5,7 @@ require 'conndb.php';
 $Xadresse = $_GET['xadresse'];
 $Yadresse = $_GET['yadresse'];
 
-$sql = "select des_activite, MIN(distance) dist_min
+$sql = "select des_activite, MIN(round(cast(distance as numeric),2)) dist_min
 from (with index_query as (
   select 
     des_activite,
@@ -32,5 +32,5 @@ while ($row = pg_fetch_assoc($result)) {
 } 
  
 
-echo '{labels: [' . implode(', ',$feature1) . '],' . 'datasets: [{data: [' . implode(', ',$feature2) . ']}]}';
+echo '{"labels": [' . implode(', ',$feature1) . '],' . '"datasets": [{	"label": "Distance aux points d' . "'" . 'interet (m)", "backgroundColor": "rgba(153, 51, 255,0.5)", "data": [' . implode(', ',$feature2) . ']}]}';
 ?>
