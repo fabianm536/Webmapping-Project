@@ -25,6 +25,8 @@ function initialize(){
 	var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
     var light = new L.TileLayer(urlLight).addTo(map);
     var resultLayer = L.geoJson();
+	var resultPoint = L.geoJson();
+	var lastClickedLayer;
 	
 	var secteurCadastral = new L.tileLayer.wms('http://localhost/cgi-bin/webfoncier/qgis_mapserv.fcgi?', {
 		layers: 'secteur_cadastral20181223181327392',
@@ -150,6 +152,26 @@ function initialize(){
     };
 
     legend.addTo(map);
+	
+	//styleSelection	
+	var stylelayer = {
+    default: {
+        color: "blue",
+        opacity: 1,
+        fillcolor: "blue",
+        fillOpacity: 0.1,
+        weight: 3
+    },
+    highlight: {
+        weight: 5,
+        color: "cyan",
+        dashArray: '',
+        fillOpacity: 0.7
+    }
+
+	}
+
+
 
 function getData(){
 
@@ -195,6 +217,8 @@ function getData(){
 
 			//ajouter geojson avec des labels en popup
 			resultLayer = L.geoJSON(resultData.responseJSON,{
+				    
+				style: stylelayer.default,
 
 				onEachFeature: function (feature, layer) {
 					layer.on('click', function (e) {
@@ -210,11 +234,17 @@ function getData(){
 						
 						//showgraph
 						showGraph(feature.properties.lat,feature.properties.long);
+						
+						//showPoints Transport
+						showTransport(feature.properties.lat,feature.properties.long);
+						
+						//hightlight selection
+						
+						setStyle(e);
 
 						}
 				)}
 			}).addTo(map);
-
 
 			//zoomto couche resultat
 			map.fitBounds(resultLayer.getBounds());
@@ -229,8 +259,59 @@ function getData(){
 
 	});
 }
-
-
+	
+function showTransport(lat,long){
+	
+	map.removeLayer(resultPoint);
+	var values = "xadresse="+long+"&yadresse="+lat;
+	var url = "http://localhost/Webmapping-Project/php/getTransData.php?" + values;
+	
+	var resultData = $.ajax({
+		  url:url,
+		  dataType: "json",
+		  success: console.log("Point data successfully loaded."),
+		  error: function (xhr) {
+		alert(xhr.statusText)
+		}
+		})
+	$.when(resultData).done(function() {
+	var geojsonMarkerOptions = {
+		radius: 8,
+		fillColor: "#80FF00",
+		color: "#000",
+		weight: 1,
+		opacity: 1,
+		fillOpacity: 1
+	};
+		
+	function onEachFeature(feature, layer) {
+		if (feature.properties && feature.properties.ntrnombre) {
+			layer.bindPopup("Arret: "+feature.properties.ntrnombre+ '</b></br>'+"Distance: "+ feature.properties.dist_min+" m"+ '</b></br>'+"Type: "+ feature.properties.ntrmtransp_des);
+		}
+	}
+	
+	resultPoint = L.geoJSON(resultData.responseJSON,{
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker(latlng, geojsonMarkerOptions);
+		}, onEachFeature: onEachFeature
+	}).addTo(map);
+	
+	map.fitBounds(resultPoint.getBounds());
+		
+	});
+	
+}
+	
+function setStyle(e){
+	if(lastClickedLayer){
+		lastClickedLayer.setStyle(stylelayer.default);
+	}
+	var layer = e.target;
+	layer.setStyle(stylelayer.highlight);
+	
+	lastClickedLayer = layer;
+}
+	
 function showModal() {
 	$('body').loadingModal({text: 'Loading...', backgroundColor: '#3498db',})
 }
