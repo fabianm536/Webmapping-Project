@@ -7,7 +7,7 @@ function initialize(){
 	minZoom: 2,
 	maxZoom: 18,
 	zoomControl: true              
-	}).setView([4.65, -74.1], 11);   
+	}).setView([4.55, -74.1], 11);   
 	
 	var options =	{
 	center: new L.LatLng(4.55, -74.1),
