@@ -99,7 +99,7 @@ select{
 {
     height: 100%;
     width: 30%;
-    float: right;
+    float: left;
 	position:relative;
 }
 
@@ -128,7 +128,7 @@ select{
 	font-family: 'Quicksand', sans-serif;
     color:#7e7b7a;
 	float: left;
-	margin-left: 40px;
+	margin-left: 8%;
 }
 
 #graph {

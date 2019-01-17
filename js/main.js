@@ -8,18 +8,12 @@ function initialize(){
 	maxZoom: 18,
 	zoomControl: true              
 	}).setView([4.55, -74.1], 11);   
-	
-	var options =	{
-	center: new L.LatLng(4.55, -74.1),
-	zoom: 9,
-	layers:[light],
-	};
 
 
 
 	var urlOsm = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	maxZoom: 19,
+	maxZoom: 20,
 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}); 
     var urlLight = 'https://api.mapbox.com/styles/v1/lorenaposada/cjok5nnw70j2b2sqrx17y9cff/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibG9yZW5hcG9zYWRhIiwiYSI6IjdCcGNDZzAifQ.vel_GiKVU4-YeKnbmh0ELQ';
 	var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
@@ -82,7 +76,7 @@ function initialize(){
          };	
 	
 	var overlayMaps = {
-		"secteurCadastral": secteurCadastral,
+		"Sec. Cadastral": secteurCadastral,
 		"Communes":commBog,
 		"Bloc":bloc,
 		"Batiment": batiment
@@ -275,14 +269,11 @@ function showTransport(lat,long){
 		}
 		})
 	$.when(resultData).done(function() {
-	var geojsonMarkerOptions = {
-		radius: 8,
-		fillColor: "#80FF00",
-		color: "#000",
-		weight: 1,
-		opacity: 1,
-		fillOpacity: 1
-	};
+	var transpIcon = L.icon({
+		iconUrl: 'Images/transpIcon.png',
+		iconSize:     [40, 50], // size of the icon
+		iconAnchor:   [22, 44], // point of the icon which will correspond to marker's location
+});
 		
 	function onEachFeature(feature, layer) {
 		if (feature.properties && feature.properties.ntrnombre) {
@@ -292,7 +283,7 @@ function showTransport(lat,long){
 	
 	resultPoint = L.geoJSON(resultData.responseJSON,{
 		pointToLayer: function (feature, latlng) {
-			return L.circleMarker(latlng, geojsonMarkerOptions);
+			return L.marker(latlng,{icon: transpIcon});
 		}, onEachFeature: onEachFeature
 	}).addTo(map);
 	

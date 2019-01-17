@@ -33,8 +33,8 @@
     <body>
         <header>
 		<div id="maindiv">
-		    <div id="maison">
-                <img src="Images/home4.png" style="height: auto; width: 150px;margin-top: 30px;margin-left: 20px;"/>
+		    <div id="maison" >
+                <img src="Images/home4.png" style="position:absolute; width:80%; height:auto; margin-left: 10%;bottom: 20px;"/>
             </div>
 			<div id="titre">
 				
@@ -69,7 +69,7 @@
 							?>
 
 						<select required name="surface" >
-							<option value = "">Surface</option>
+							<option value = "">Surface (m2)</option>
 							<option value = "< 40">Moins de 40</option>
 							<option value = "between 40 and 60">de 40 à 60</option>
 							<option value = "between 60 and 80">de 60 à 80</option>
@@ -84,7 +84,7 @@
 						</select>
 
 						<select required name="prix">
-							<option value = "">Prix m2</option>
+							<option value = "">Prix (€/m2)</option>
 							<option value = "< 100">Moins de 100</option>
 							<option value = "between 100 and 200">de 100 à 200</option>
 							<option value = "between 200 and 300">de 200 à 300</option>
@@ -99,7 +99,7 @@
 			</div>
 			
 				<div id="logos">
-					<img src="Images/logosu.png" style="margin-top: 50px; margin-right: 10px;"/>
+					<img src="Images/logosu.png" style="position:absolute; width:100%; height:auto; margin-left: 10%;bottom: 20px;"/>
 				</div>
 			
 			</div>
