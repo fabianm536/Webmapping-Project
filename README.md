@@ -2,7 +2,7 @@
 GIS application for real state by multi criteria searching
 
 ## Preparer Application
-1. Installer Apache server
+1. Installer Apache server + PHP
 2. Installer PostgreSQL 
 3. Installer QGIS
 4. Installer QGIS server
