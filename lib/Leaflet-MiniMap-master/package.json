@@ -21,7 +21,7 @@
     "url": "https://github.com/Norkart/Leaflet-MiniMap/issues"
   },
   "devDependencies": {
-    "clean-css": "3.0.7",
+    "clean-css": "4.1.11",
     "happiness": "^1.0.7",
     "leaflet": ">=1.0.3",
     "ncp": "1.0.1",
